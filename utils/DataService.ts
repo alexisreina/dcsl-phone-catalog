@@ -15,4 +15,7 @@ export abstract class DataService<T> {
     condition: FirebaseFirestore.WhereFilterOp;
     value: T[FilterField<T>];
   }): Promise<T[]>;
+  abstract create(payload: T): Promise<void>;
+  abstract update(payload: T): Promise<void>;
+  abstract delete(id: string): Promise<void>;
 }

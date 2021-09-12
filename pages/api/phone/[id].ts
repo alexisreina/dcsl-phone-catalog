@@ -5,10 +5,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { method } = req;
+  const { method, body } = req;
   const { id } = req.query;
 
-  if (Array.isArray(id)) return res.status(400);
+  if (Array.isArray(id)) return res.status(400).end("Invalid parameters");
 
   try {
     switch (method) {
@@ -20,8 +20,19 @@ export default async function handler(
         }
 
         return res.status(404);
+      case "PUT":
+        console.log(body);
+        if (!body?.data) return res.status(400);
+        await phoneService.update(body.data);
+        return res.status(200).send({ message: "Phone updated!" });
+      case "DELETE":
+        console.log(body);
+        if (!id) return res.status(400);
+        await phoneService.delete(id);
+        return res.status(200).send({ message: "Phone deleted!" });
       default:
-        res.status(405);
+        res.setHeader("Allow", ["GET", "PUT", "DELETE"]);
+        res.status(405).end(`Method ${method} Not Allowed`);
     }
   } catch (e) {
     console.log(e);

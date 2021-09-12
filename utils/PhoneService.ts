@@ -5,7 +5,7 @@ export enum PhoneCollection {
 }
 
 export interface Phone {
-  id: string;
+  id?: string;
   // created?: string;
   name?: string;
   description?: string;
@@ -65,6 +65,32 @@ export class PhoneService extends DataService<Phone> {
       // created: doc.createTime?.toDate().toDateString(),
       ...doc.data(),
     }));
+  }
+
+  async create(phone: Phone): Promise<void> {
+    if (phone) {
+      const res = this.collection.add(phone);
+      console.log(res);
+    }
+  }
+
+  async update(update: Phone): Promise<void> {
+    const { id } = update;
+
+    if (id) {
+      const doc = this.collection.doc(id);
+      const data = { ...update };
+      delete data.id;
+      const res = await doc.update(data);
+      console.log(res);
+    }
+  }
+
+  async delete(id: string): Promise<void> {
+    if (id) {
+      const res = await this.collection.doc(id).delete();
+      console.log(res);
+    }
   }
 }
 
