@@ -2,11 +2,11 @@ import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
-import PageWrapper from "../../components/PageWrapper";
 import Auth from "../../components/Auth";
-import DefaultLayout from "../../layouts/DefaultLayout";
+import DefaultLayout from "../../components/DefaultLayout";
 
 import { Phone } from "../../utils/PhoneService";
+import { ButtonPrimary } from "../../components/Button";
 
 export default function AdminIndex() {
   const [data, setData] = useState<Phone[] | null>(null);
@@ -34,20 +34,23 @@ export default function AdminIndex() {
   };
 
   return (
-    <PageWrapper>
-      <DefaultLayout>
-        <Auth>
-          <main className="container p-4 mx-auto">
-            <header className="pb-4 my-4 border-b-2 items-center justify-between flex">
-              <h1 className="leading-6 font-semibold text-2xl">Admin</h1>
-              <Link href="/admin/new">New</Link>
-            </header>
+    <DefaultLayout>
+      <Auth>
+        <main className="container p-4 mx-auto">
+          <header className="pb-4 my-4 border-b-2 items-center justify-between flex">
+            <h1 className="leading-6 font-semibold text-gray-700 text-2xl">
+              Admin
+            </h1>
+            <Link href="/admin/new" passHref>
+              <ButtonPrimary component="a">New</ButtonPrimary>
+            </Link>
+          </header>
 
-            {data ? (
-              <section className="font-mono">
-                <div className="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-                  <div className="w-full overflow-x-auto"></div>
-                  <table className="w-full">
+          {data ? (
+            <section className="font-mono">
+              <div className="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+                <div className="w-full overflow-x-auto">
+                  <table className="table-auto w-full">
                     <thead>
                       <tr className="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
                         <th></th>
@@ -64,30 +67,36 @@ export default function AdminIndex() {
                         ({ id, image, name, manufacturer, color, price }) => (
                           <tr key={id} className="text-gray-700">
                             <td className="px-4 py-3 border">
-                              {image?.src ? (
-                                <Image
-                                  src={`/${image?.src}`}
-                                  width={48}
-                                  height={48}
-                                />
-                              ) : (
-                                "No image"
-                              )}
+                              <div className="w-12 mx-auto">
+                                {image?.src ? (
+                                  <Image
+                                    src={`/${image?.src}`}
+                                    width={300}
+                                    height={300}
+                                  />
+                                ) : (
+                                  "No image"
+                                )}
+                              </div>
                             </td>
                             <td className="px-4 py-3 border">{name}</td>
-                            <td className="px-4 py-3 border">{id}</td>
                             <td className="px-4 py-3 border">{manufacturer}</td>
                             <td className="px-4 py-3 border">{color}</td>
-                            <td className="px-4 py-3 border">{price}</td>
+                            <td className="px-4 py-3 border font-semibold">
+                              {price?.toLocaleString("es-ES", {
+                                style: "currency",
+                                currency: "EUR",
+                              })}
+                            </td>
                             <td className="px-4 py-3 border">
                               <Link href={`/admin/${id}`}>
-                                <a className="inline-block text-blue-400 hover:text-blue-600 underline">
+                                <a className="block xl:inline-block mb-4 xl:mb-0 text-blue-400 hover:text-blue-600 underline">
                                   Edit
                                 </a>
                               </Link>
                               <a
                                 onClick={(e) => handleDelete(id)}
-                                className="inline-block pl-6 text-blue-400 hover:text-blue-600 underline"
+                                className="block: xl:inline-block xl:pl-6 text-red-400 hover:text-red-600 underline"
                               >
                                 Delete
                               </a>
@@ -98,13 +107,13 @@ export default function AdminIndex() {
                     </tbody>
                   </table>
                 </div>
-              </section>
-            ) : (
-              <p>loading...</p>
-            )}
-          </main>
-        </Auth>
-      </DefaultLayout>
-    </PageWrapper>
+              </div>
+            </section>
+          ) : (
+            <p>loading...</p>
+          )}
+        </main>
+      </Auth>
+    </DefaultLayout>
   );
 }

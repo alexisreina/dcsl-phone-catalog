@@ -2,9 +2,8 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import axios from "axios";
-import { FormField } from "../../components/Form";
-import PageWrapper from "../../components/PageWrapper";
-import DefaultLayout from "../../layouts/DefaultLayout";
+import { Form } from "../../components/Form";
+import DefaultLayout from "../../components/DefaultLayout";
 import phoneService, { Phone } from "../../utils/PhoneService";
 import Auth from "../../components/Auth";
 
@@ -48,7 +47,8 @@ export default function AdminUpdate({ phone }: PageProps) {
       .catch(console.error.bind(console));
   };
 
-  const handleDelete = (id?: string) => {
+  const handleDelete = () => {
+    const { id } = phone;
     if (id && window.confirm("Are you sure")) {
       axios
         .delete(`/api/phone/${id}`)
@@ -59,98 +59,28 @@ export default function AdminUpdate({ phone }: PageProps) {
   };
 
   return (
-    <PageWrapper>
-      <DefaultLayout>
-        <Auth>
-          <main className="container p-4 mx-auto max-w-screen-md">
-            Edit {phone.id}
-            <div className="bg-white shadow-md rounded-lg overflow-hidden p-5">
-              <form onSubmit={handleSubmit}>
-                <FormField
-                  label="Name"
-                  value={data.name}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange("name", e.target.value)
-                  }
-                />
+    <DefaultLayout>
+      <Auth>
+        <main className="container p-4 mx-auto max-w-screen-sm">
+          <h1 className="text-2xl text-gray-500 mt-4 mb-3">
+            <span className="ml-5 inline-block">Editing</span>
+            <span className="inline-block font-mono text-lg ml-4 opacity-70">
+              {phone.id}
+            </span>
+          </h1>
 
-                <FormField
-                  label="Color"
-                  value={data.color}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange("color", e.target.value)
-                  }
-                />
-
-                <FormField
-                  label="Manufacturer"
-                  value={data.manufacturer}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange("manufacturer", e.target.value)
-                  }
-                />
-
-                <FormField
-                  label="Screen"
-                  value={data.screen}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange("screen", e.target.value)
-                  }
-                />
-
-                <FormField
-                  label="Processor"
-                  value={data.processor}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange("processor", e.target.value)
-                  }
-                />
-
-                <FormField
-                  label="Memory"
-                  value={data.memory}
-                  type="number"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange("memory", e.target.value)
-                  }
-                />
-
-                <FormField
-                  label="RAM"
-                  value={data.ram}
-                  type="number"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange("ram", e.target.value)
-                  }
-                />
-
-                <FormField
-                  label="Price"
-                  value={data.price}
-                  type="number"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange("price", e.target.value)
-                  }
-                />
-
-                <FormField
-                  label="Description"
-                  value={data.description}
-                  component="textarea"
-                  rows={4}
-                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                    handleChange("description", e.target.value)
-                  }
-                />
-
-                <button type="submit">Save</button>
-                <button onClick={(e) => handleDelete(phone.id)}>Delete</button>
-              </form>
-            </div>
-          </main>
-        </Auth>
-      </DefaultLayout>
-    </PageWrapper>
+          <div className="bg-white shadow-md rounded-3xl overflow-hidden p-6 md:px-12 md:py-8">
+            <Form
+              mode="update"
+              data={data}
+              handleSubmit={handleSubmit}
+              handleChange={handleChange}
+              handleDelete={handleDelete}
+            />
+          </div>
+        </main>
+      </Auth>
+    </DefaultLayout>
   );
 }
 
