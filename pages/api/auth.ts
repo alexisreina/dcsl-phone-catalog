@@ -1,7 +1,7 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 
-const API_KEY = process.env.API_KEY;
+const API_KEY = process.env.FIREBASE_API_KEY;
 const uri = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`;
 
 export default async function handler(

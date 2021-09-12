@@ -1,9 +1,5 @@
 import { DataService } from "./DataService";
 
-export enum PhoneCollection {
-  Name = "phone-catalog",
-}
-
 export interface Phone {
   id?: string;
   // created?: string;
@@ -94,6 +90,6 @@ export class PhoneService extends DataService<Phone> {
   }
 }
 
-const phoneService = new PhoneService(PhoneCollection.Name);
+const phoneService = new PhoneService(process.env.FIREBASE_DB || "");
 
 export default phoneService;

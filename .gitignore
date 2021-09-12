@@ -35,3 +35,4 @@ yarn-error.log*
 
 # secrets
 serviceAccount.json
+service-account-encrypted.js
