@@ -1,6 +1,32 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Project description
+
+This a phone catalog app built with Firebase, Next, React TypeScript and tailwindcss.
+
+The fontend displays a collection of phones stored in Firebase and the user can see all the phone features by clicking on the items.
+
+It also has a backend for admintrating the catalog that allows authenticated users to add, modify or remove items from the catalog.
+
+### Demo
+
+Visit the [Demo](https://dcsl-phone-catalog.vercel.app/)
+
+## Local development
+
+In order to connect with firebase you need to create some credentials and add them to and .env.local file.
+
+Please follow any tutorial to create a firebase app in case you don't have one.
+
+Then follow this instructions to [create and setup a firebase service account](https://firebase.google.com/docs/admin/setup#set-up-project-and-service-account).
+
+Lastly follow the instructions of this [tutorial to encrypt the service account](https://vercel.com/support/articles/how-do-i-workaround-vercel-s-4-kb-environment-variables-limit) and add the secrets and the generated Base64 to your .env.local file.
+
+This last step is only necessary because due to an issue with environment variables in vercel.
+
+Please take a look to the .env.local.example to see how environment variables are structured.
 
 ## Getting Started
+
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 First, run the development server:
 
@@ -26,9 +52,3 @@ To learn more about Next.js, take a look at the following resources:
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
