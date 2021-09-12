@@ -1,8 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import phoneService, {
-  Phone,
-  PhoneCollection,
-} from "../../../utils/PhoneService";
+import phoneService from "../../../utils/PhoneService";
 
 export default async function handler(
   req: NextApiRequest,
