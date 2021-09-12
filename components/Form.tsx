@@ -50,13 +50,16 @@ export const FormField: React.FC<{
   }
 };
 
-export const Form: React.FC<{
-  data: Phone;
-  mode: "create" | "update";
-  handleSubmit: (evt: React.SyntheticEvent) => void;
-  handleChange: (key: string, value: string | number) => void;
-  handleDelete?: () => void;
-}> = ({ data, mode, handleSubmit, handleChange, handleDelete }, ref) => {
+export const Form = React.forwardRef<
+  HTMLFormElement,
+  {
+    data: Phone;
+    mode: "create" | "update";
+    handleSubmit: (evt: React.SyntheticEvent) => void;
+    handleChange: (key: string, value: string | number) => void;
+    handleDelete?: () => void;
+  }
+>(({ data, mode, handleSubmit, handleChange, handleDelete }, ref) => {
   return (
     <form ref={ref} onSubmit={handleSubmit}>
       {/* <input type="file" onChange={handleFile} /> */}
@@ -153,4 +156,6 @@ export const Form: React.FC<{
       </div>
     </form>
   );
-};
+});
+
+Form.displayName = "Form";

@@ -7,9 +7,10 @@ export const ProductImage: React.FC<{
   src: string;
   width?: number;
   height?: number;
-}> = ({ src, width, height }) => (
+  alt?: string;
+}> = ({ src, width, height, alt }) => (
   <figure className="px-2 py-12 shadow-sm rounded-3xl bg-white">
-    <Image src={src} width={width} height={height} />
+    <Image src={src} width={width} height={height} alt={alt} />
   </figure>
 );
 
@@ -124,6 +125,7 @@ export const ProductCard = React.forwardRef<
             src={`/${phone.image?.src}`}
             width={phone.image?.width}
             height={phone.image?.height}
+            alt={`${phone.manufacturer} ${phone.name} - ${phone.color}`}
           />
         </div>
 
@@ -144,3 +146,5 @@ export const ProductCard = React.forwardRef<
     </div>
   </a>
 ));
+
+ProductCard.displayName = "ProductCard";

@@ -73,6 +73,7 @@ export default function AdminIndex() {
                                     src={`/${image?.src}`}
                                     width={300}
                                     height={300}
+                                    alt=""
                                   />
                                 ) : (
                                   "No image"

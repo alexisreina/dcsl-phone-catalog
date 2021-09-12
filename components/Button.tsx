@@ -33,3 +33,5 @@ export const ButtonPrimary = React.forwardRef<
       );
   }
 });
+
+ButtonPrimary.displayName = "ButtonPrimary";
