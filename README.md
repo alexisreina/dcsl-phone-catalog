@@ -10,6 +10,19 @@ It also has a backend for admintrating the catalog that allows authenticated use
 
 Visit the [Demo](https://dcsl-phone-catalog.vercel.app/)
 
+### TODO
+
+Nice-to-have features:
+
+- Cloudinary integration: Use cloudinary to get and upload product images.
+- Pagination: add pagination to firebase request and UI.
+- Add more product attributes: pseudoprice, highlighted, top_sales, created and updated timestamps...
+- Product sorting and filters: Be able to sort by manufacturer, price and be able to filter by phone features.
+- Unit and Integration tests: Install the dependencies, prepare the mocks and snapshots and write some tests.
+- Improve admin auth: Change how session in handled in the client for something more persistent.
+- Search: add search functionality.
+- SEO: Use built-in seo Next capabilities and add schema metadata to html.
+
 ## Local development
 
 In order to connect with firebase you need to create some credentials and add them to and .env.local file.
