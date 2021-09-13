@@ -65,7 +65,7 @@ export class PhoneService extends DataService<Phone> {
 
   async create(phone: Phone): Promise<void> {
     if (phone) {
-      const res = this.collection.add(phone);
+      const res = await this.collection.add(phone);
       console.log(res);
     }
   }

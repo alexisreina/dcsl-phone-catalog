@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { FormField } from "./Form";
+import { ButtonPrimary } from "./Button";
 
 const Auth: React.FC = ({ children }) => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
@@ -34,7 +35,7 @@ const Auth: React.FC = ({ children }) => {
                 });
             }}
           >
-            <p>{error}</p>
+            <p className="h-6 leading-6 text-red-700 mb-4">{error}</p>
 
             <FormField
               label="email"
@@ -60,7 +61,9 @@ const Auth: React.FC = ({ children }) => {
               }}
             />
 
-            <button type="submit">Login</button>
+            <div className="text-right">
+              <ButtonPrimary type="submit">Login</ButtonPrimary>
+            </div>
           </form>
         </div>
       </main>

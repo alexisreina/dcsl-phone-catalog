@@ -1,11 +1,13 @@
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import axios from "axios";
-import { Form } from "../../components/Form";
-import DefaultLayout from "../../components/DefaultLayout";
+import axios, { AxiosError } from "axios";
 import phoneService, { Phone } from "../../utils/PhoneService";
+import DefaultLayout from "../../components/DefaultLayout";
 import Auth from "../../components/Auth";
+import { Form } from "../../components/Form";
+import { AlertError } from "../../components/Alert";
+import { Loading } from "../../components/Loading";
 
 type PageProps = {
   phone: Phone;
@@ -31,6 +33,8 @@ const initialData = {
 
 export default function AdminUpdate({ phone }: PageProps) {
   const [data, setData] = useState<Phone>({ ...initialData, ...phone });
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   const handleChange = (key: string, value: string | number): void => {
@@ -41,21 +45,35 @@ export default function AdminUpdate({ phone }: PageProps) {
   const handleSubmit = (evt: React.SyntheticEvent): void => {
     evt.preventDefault();
     console.log(evt, data);
+    setLoading(true);
+    setError(null);
     axios
       .put(`/api/phone/${data.id}`, { data })
-      .then((res) => console.log(res))
-      .catch(console.error.bind(console));
+      .then(() => router.push("/admin"))
+      .catch((e: AxiosError) => {
+        console.error(e);
+        setLoading(false);
+        setError("Something failed :(");
+      });
   };
 
-  const handleDelete = () => {
+  const handleDelete = (e: React.SyntheticEvent) => {
+    e.preventDefault();
     const { id } = phone;
+    setLoading(true);
+    setError(null);
     if (id && window.confirm("Are you sure")) {
       axios
         .delete(`/api/phone/${id}`)
         .then(console.log.bind(console))
-        .then(() => router.push("/admin"))
-        .catch(console.error.bind(console));
+        .then(() => router.replace("/admin"))
+        .catch((e: AxiosError) => {
+          console.error(e);
+          setLoading(false);
+          setError("Something failed :(");
+        });
     }
+    setLoading(false);
   };
 
   return (
@@ -70,6 +88,7 @@ export default function AdminUpdate({ phone }: PageProps) {
           </h1>
 
           <div className="bg-white shadow-md rounded-3xl overflow-hidden p-6 md:px-12 md:py-8">
+            <AlertError show={!!error}>{error}</AlertError>
             <Form
               mode="update"
               data={data}
@@ -79,6 +98,7 @@ export default function AdminUpdate({ phone }: PageProps) {
             />
           </div>
         </main>
+        <Loading show={loading} />
       </Auth>
     </DefaultLayout>
   );

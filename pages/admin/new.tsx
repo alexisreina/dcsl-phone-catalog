@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import DefaultLayout from "../../components/DefaultLayout";
 import Auth from "../../components/Auth";
 
 import { Form } from "../../components/Form";
+import { Loading } from "../../components/Loading";
+import { AlertError } from "../../components/Alert";
 
 const initialData = {
   name: "",
@@ -25,6 +27,8 @@ const initialData = {
 
 export default function AdminCreate() {
   const [data, setData] = useState(initialData);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   // const [image, setImage] = useState<File | null>(null);
   const router = useRouter();
 
@@ -44,11 +48,17 @@ export default function AdminCreate() {
   const handleSubmit = (evt: React.SyntheticEvent): void => {
     evt.preventDefault();
     console.log(evt, data);
+    setLoading(true);
+    setError(null);
     axios
       .post("/api/phone", { data })
       .then(console.log.bind(console))
       .then(() => router.push("/admin"))
-      .catch(console.error.bind(console));
+      .catch((e: AxiosError) => {
+        console.error(e);
+        setLoading(false);
+        setError("Something failed :(");
+      });
   };
 
   return (
@@ -60,6 +70,8 @@ export default function AdminCreate() {
           </h1>
 
           <div className="bg-white shadow-md rounded-3xl overflow-hidden p-6 md:px-12 md:py-8">
+            <AlertError show={!!error}>{error}</AlertError>
+
             <Form
               mode="create"
               data={data}
@@ -68,6 +80,7 @@ export default function AdminCreate() {
             />
           </div>
         </main>
+        <Loading show={loading} />
       </Auth>
     </DefaultLayout>
   );

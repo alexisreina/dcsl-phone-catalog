@@ -7,6 +7,7 @@ import DefaultLayout from "../../components/DefaultLayout";
 
 import { Phone } from "../../utils/PhoneService";
 import { ButtonPrimary } from "../../components/Button";
+import { Loading } from "../../components/Loading";
 
 export default function AdminIndex() {
   const [data, setData] = useState<Phone[] | null>(null);
@@ -46,7 +47,7 @@ export default function AdminIndex() {
             </Link>
           </header>
 
-          {data ? (
+          {data && (
             <section className="font-mono">
               <div className="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
                 <div className="w-full overflow-x-auto">
@@ -97,7 +98,7 @@ export default function AdminIndex() {
                               </Link>
                               <a
                                 onClick={(e) => handleDelete(id)}
-                                className="block: xl:inline-block xl:pl-6 text-red-400 hover:text-red-600 underline"
+                                className="block: xl:inline-block xl:pl-6 text-red-400 hover:text-red-600 underline cursor-pointer"
                               >
                                 Delete
                               </a>
@@ -110,10 +111,10 @@ export default function AdminIndex() {
                 </div>
               </div>
             </section>
-          ) : (
-            <p>loading...</p>
           )}
         </main>
+
+        <Loading show={!data} />
       </Auth>
     </DefaultLayout>
   );

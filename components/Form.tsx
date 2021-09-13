@@ -57,7 +57,7 @@ export const Form = React.forwardRef<
     mode: "create" | "update";
     handleSubmit: (evt: React.SyntheticEvent) => void;
     handleChange: (key: string, value: string | number) => void;
-    handleDelete?: () => void;
+    handleDelete?: (e: React.SyntheticEvent) => void;
   }
 >(({ data, mode, handleSubmit, handleChange, handleDelete }, ref) => {
   return (
@@ -146,6 +146,7 @@ export const Form = React.forwardRef<
       >
         {mode == "update" && handleDelete && (
           <button
+            type="button"
             className="text-gray-500 text-sm uppercase tracking-wider"
             onClick={handleDelete}
           >
